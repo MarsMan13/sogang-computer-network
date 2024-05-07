@@ -6,7 +6,7 @@ int _INIT_BUFFER_SIZE = 1024;
 
 typedef struct _globalInfo
 {
-  int index = 0; // size == index
+  int index; // size == index
   int codewordsSize;
   char *codewords;
 } globalInfo;
@@ -18,6 +18,7 @@ int _initGlobalInfo()
   db = (globalInfo *)calloc(1, sizeof(globalInfo));
   db->codewordsSize = _INIT_BUFFER_SIZE;
   db->codewords = (char *)calloc(db->codewordsSize + 1, sizeof(char));
+  db->index = 0;
   return 0;
 }
 
@@ -100,9 +101,11 @@ int checkCRC(int codewordSize, char *codeword, char *generator)
   {
     if (temp[codewordSize - (generatorSize - 1) + i] != '0')
     {
+      free(temp);
       return 1; // Error detected
     }
   }
+  free(temp);
   return 0; // No error detected
 }
 

@@ -16,6 +16,7 @@ int _initGlobalInfo(){
   db = (globalInfo*)calloc(1, sizeof(globalInfo));
   db->outputBufferSize = _INIT_BUFFER_SIZE;
   db->outputBuffer = (char*)calloc(db->outputBufferSize, sizeof(char));
+  db->index = 0;
   return 0;
 }
 
@@ -51,7 +52,7 @@ int calculateCRC(char *dataword, char *generator){
   int dataword_len = strlen(dataword);
   int generator_len = strlen(generator);
   int total_len = dataword_len + generator_len - 1;
-  char temp[total_len + 1];
+  char *temp = (char *)calloc(total_len + 1, sizeof(char));
 
   strcpy(temp, dataword);
   memset(temp + dataword_len, '0', generator_len - 1);
@@ -68,6 +69,7 @@ int calculateCRC(char *dataword, char *generator){
   }
   memcpy(temp, dataword, dataword_len);
   _appendCodeword(temp);
+  free(temp);
   return 0;
 }
 
