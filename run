@@ -1,0 +1,4 @@
+#!/bin/bash
+./crc_encoder datastream.tx codedstream.tx 10000001 8
+./linksim codedstream.tx codedstream.rx 0.0 1001
+./crc_decoder codedstream.rx datastream.rx result.txt 10000001 8

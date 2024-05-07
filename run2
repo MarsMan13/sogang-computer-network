@@ -1,0 +1,16 @@
+#!/bin/bash
+
+scale=0.0
+size=8
+G="101"
+seed="1001"
+
+./crc_encoder datastream.tx codedstream.tx $G $size
+./linksim codedstream.tx codedstream.rx $scale $seed
+./crc_decoder codedstream.rx datastream.rx result.txt $G $size
+
+echo "===="
+
+./sogang-computer-network/proj1/crc_encoder_20171664 datastream.tx codedstream2.tx $G $size
+./linksim codedstream2.tx codedstream2.rx $scale $seed
+./sogang-computer-network/proj1/crc_dncoder_20171664 codedstream2.rx datastream2.rx result2.txt $G $size

@@ -101,7 +101,6 @@ void processFile(char *input_file, char *output_file, char *generator, int dataw
   int total_bits = 0;
   char byteAry[9] = {0};
   while ((byte = fgetc(in)) != EOF){
-    if(byte == 10)  break;   // TODO: DELETE IT LATER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     for (int i = 7; i >= 0; i--)
     {
       int bit = (byte >> i) & 1;
@@ -128,23 +127,23 @@ void processFile(char *input_file, char *output_file, char *generator, int dataw
       calculateCRC(dataword, generator);
     }
   }
-  for(int i = 0; db->outputBuffer[i] != 0; i++){
-    printf("%c", db->outputBuffer[i]);
-  }
-  printf("\n");
+  // for(int i = 0; db->outputBuffer[i] != 0; i++){
+  //   printf("%c", db->outputBuffer[i]);
+  // }
+  // printf("\n");
   // Add Padding
   int padding = (8 - (db->index % 8)) % 8;
   int8_t paddingSizeByte = padding;
   memcpy(db->outputBuffer+padding, db->outputBuffer, db->outputBufferSize);
   memset(db->outputBuffer, '0', padding);
-  printf("%s\n", db->outputBuffer);
+  // printf("%s\n", db->outputBuffer);
   //////
   // OUTPUT
-  printf("OUTPUT\n");
+  // printf("OUTPUT\n");
   fwrite(&paddingSizeByte, sizeof(int8_t), 1, out);
   for(int i = 0; i<db->index; i+=8){
     int8_t temp = array8ToByte(db->outputBuffer + i);
-    printf("%d\n", temp);
+    // printf("%d\n", temp);
     fwrite(&temp, sizeof(int8_t), 1, out);
   }
   ////
